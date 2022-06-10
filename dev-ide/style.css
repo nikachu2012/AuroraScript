@@ -1,0 +1,88 @@
+.html {
+    overflow: hidden;
+}
+
+.navbar {
+    width: 100vw;
+    height: 32px;
+
+    background-color: #333333;
+    color: #ffffff;
+}
+
+.titletext {
+    font-size: 15px;
+}
+
+.editorbody {
+    width: calc((100vw / 3) * 2);
+    height: calc(100vh - 32px);
+    overflow: hidden;
+}
+
+.consolebody {
+    width: calc((100vw / 3) * 1);
+    height: calc(100vh - 32px);
+}
+
+.console {
+    height: calc(100vh - 32px - 300px);
+
+    color: white;
+    background-color: #222222;
+
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.log {
+    height: 300px;
+    color: white;
+    background-color: #454545;
+
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.consoleLog {
+    border-bottom: #3d3d3d 1px solid;
+    font-size: 12px;
+    padding: 3px;
+
+    position: relative;
+}
+
+.log_error {
+    background-color: rgba(255, 0, 0, 0.308);
+}
+
+.log_warn {
+    background-color: rgb(255, 255, 0, 0.308);
+}
+
+.commandRun {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+
+    color: #8f8f8f;
+
+    font-size: 3px;
+}
+
+.button {
+    font-size: 15px;
+
+    padding: 5px;
+
+    background-color: #333333;
+    color: #ffffff;
+}
+
+.button:hover {
+    background-color: #5e5e5e;
+}
+
+.runbutton:hover {
+    opacity: 0.8;
+}

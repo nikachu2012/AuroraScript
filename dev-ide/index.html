@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuroraScript</title>
+
+    <link rel="stylesheet" href="ress.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="navbar">
+        <span class="titletext">AuroraScriptV2 Deveropment IDE version 2.0&nbsp;</span>
+        [<button class="button" onclick="run()">実行</button>|<button class="button"
+            onclick="aurora.console_clear();">コンソール消去</button>|<button class="button"
+            onclick="aurora.runLog_clear();">ログ消去</button>]
+
+    </div>
+    <div style="display: flex;">
+
+        <div id="editor" class="editorbody"></div>
+        <div class="consolebody">
+            <div id="console" class="console"></div>
+            <div class="log" id="log"></div>
+        </div>
+
+    </div>
+
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/loader.min.js"></script>
+    <script>
+        require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/' } });
+        require(['vs/editor/editor.main'], function () {
+            editor = monaco.editor.create(document.getElementById('editor'), {
+                language: 'text',
+                value: [
+                    "print('Hello,World!');",
+                    "print('Hello,World!');",
+                    "print('Hello,World!');",
+                ].join('\r\n'),
+                lineNumbers: true,
+                roundedSelection: false,
+                scrollBeyondLastLine: false,
+                readOnly: false,
+                theme: "vs-dark",
+                insertSpaces: false,
+            });
+        });
+        const run = () => {
+            codeSplit(editor.getValue());
+        }
+    </script>
+
+    <script src="../src/phaser.js"></script>
+
+</body>
+
+</html>
