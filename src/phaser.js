@@ -27,29 +27,39 @@ const phaser = (code) => {
     retCode.type = "function_define";
     retCode.input = code;
 
-    retCode.functionValue = code.match(functionRegExp)[0];
-    if (retCode.functionValue === "function") {
-      retCode.functionShort = false;
-    } else if (retCode.functionValue === "fn") {
-      retCode.functionShort = true;
+    // 関数定義関連
+    retCode.function = {};
+
+    retCode.function.value = code.match(functionRegExp)[0];
+    if (retCode.function.value === "function") {
+      retCode.function.short = false;
+    } else if (retCode.function.value === "fn") {
+      retCode.function.short = true;
     } else {
       return null; // エラー
     }
     const defParamAll = code.match(/\s*(?<=\().*(?=\)\s*{)/)[0];
     
-    retCode.defineParameterAllList = defParamAll;
-    retCode.defineParameter = defParamAll.split(/(?<!\\), |, | ,/g)
+    // パラメータ
+    retCode.defineParameter = {};
+    retCode.defineParameter.all = defParamAll;
+    retCode.defineParameter.value = defParamAll.split(/(?<!\\), |, | ,/g)
   } else if (code.match(/.+\(.*\).*;/g) !== void 0) {
     // 関数の場合
     retCode.type = "function";
     retCode.input = code;
 
-    retCode.function_nameValue = code.match(functionRegExp)[0];
+    retCode.function = {};
+    retCode.function.value = code.match(functionRegExp)[0];
 
     const allParameter = code.match(/(?<=\().*?(?=\))/)[0];
-    retCode.allParameter = allParameter;
-
     const parameter = allParameter.split(/(?<!\\), |, | ,/g);
+
+    retCode.parameter = {};
+    retCode.parameter.all = allParameter;
+    retCode.parameter.value = parameter;
+
+    
   } else if (undefined) {
     // TODO 数式の場合を追加
   } else {
