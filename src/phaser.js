@@ -52,6 +52,10 @@ const codeSplit = (code) => {
  * @returns {null}
  */
 const phaser = (code) => {
+  if (code == "") {
+    return null;
+  }
+
   let retCode = {}; //JSON
 
   const functionRegExp = /(?:.*)(?=\()/;
