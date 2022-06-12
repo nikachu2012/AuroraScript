@@ -96,14 +96,12 @@ const phaser = (code) => {
     retCode.parameter = {};
     retCode.parameter.all = allParameter;
     retCode.parameter.value = parameter;
-
-    
   } else if (undefined) {
     // TODO 数式の場合を追加
   } else {
     return null;
   }
 
-  console.log (retCode);
+  console.log(retCode);
   return retCode;
 };
