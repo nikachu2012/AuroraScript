@@ -1,7 +1,6 @@
 const codeSplit = (code) => {
   //コマンドに変形
-  code = code.replace(/\r\n/g, "").replace(/\t/g, "");
-  code = code.split(/(?<!\\);/g);
+  code = code.replace(/\r\n/g, "").replace(/\t/g, "").split(/(?<=(?<!\\);)/g);
   console.log(code);
 
   for (let index = 0; index < code.length; index++) {
