@@ -60,7 +60,7 @@ const phaser = (code) => {
 
   const functionRegExp = /(?:.*)(?=\()/;
 
-  if (code.match(/^(?:function|fn)\s*\(.*\)\s*{.+}\s*;/g) !== null) {
+  if (/^(?:function|fn)\s*\(.*\)\s*{.+}\s*;/.test(code)) {
     // functionの場合
     retCode.type = "function_define";
     retCode.input = code;
@@ -77,12 +77,12 @@ const phaser = (code) => {
       return null; // エラー
     }
     const defParamAll = code.match(/\s*(?<=\().*(?=\)\s*{)/)[0];
-    
+
     // パラメータ
     retCode.defineParameter = {};
     retCode.defineParameter.all = defParamAll;
-    retCode.defineParameter.value = defParamAll.split(/(?<!\\), |, | ,/g)
-  } else if (code.match(/.+\(.*\).*;/g) !== void 0) {
+    retCode.defineParameter.value = defParamAll.split(/(?<!\\), |, | ,/g);
+  } else if (/.+\(.*\).*;/.test(code)) {
     // 関数の場合
     retCode.type = "function";
     retCode.input = code;
