@@ -91,7 +91,7 @@ const phaser = (code) => {
     retCode.function.value = code.match(functionRegExp)[0];
 
     const allParameter = code.match(/(?<=\().*?(?=\))/)[0];
-    const parameter = allParameter.split(/(?<!\\), |, | ,/g);
+    const parameter = allParameter.split(/(?<!\\)(?:,\s*|\s*,|,)/g);
 
     retCode.parameter = {};
     retCode.parameter.all = allParameter;
