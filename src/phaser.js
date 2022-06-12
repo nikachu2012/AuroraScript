@@ -3,6 +3,41 @@ const codeSplit = (code) => {
   code = code.replace(/\r\n/g, "").replace(/\t/g, "").split(/(?<=(?<!\\);)/g);
   console.log(code);
 
+
+
+  let newcode = [];
+
+  while (true) {
+    if (code == 0) {
+      break;
+    }
+
+    try {
+      if (code[0].match(/^(?:function|fn)\s*\(/)[0] == undefined) {
+        break;
+      }
+    } catch (error) {
+      break;
+    }
+    if (code[0].match(/^(?:function|fn)\s*\(/)) {
+      if (code[0].match(/^(?:function|fn)\s*\(/) !== undefined) {
+        const bracketPlace = code.indexOf('};')
+        const replace = code.slice(0, bracketPlace + 1).join("")
+        code.splice(0, bracketPlace + 1)
+        newcode.push(replace)
+      }
+    }
+    else {
+      break;
+    }
+    console.log(code)
+    console.log(newcode)
+  }
+
+  if (code == 0) {
+    code = newcode;
+  }
+
   for (let index = 0; index < code.length; index++) {
     const element = code[index];
 
