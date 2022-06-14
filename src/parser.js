@@ -97,6 +97,37 @@ const parser = (code) => {
     retCode.parameter.all = allParameter;
     retCode.parameter.value = parameter;
 
+    retCode.parameter.parse = [];
+    
+    for (let index = 0; index < retCode.parameter.value.length; index++) {
+      const element = retCode.parameter.value[index];
+      retCode.parameter.parse[index] = {};
+      if(/^'.+'$/g.test(element)){
+        retCode.parameter.parse[index].type = 'string'
+        retCode.parameter.parse[index].isNumber = false;
+        retCode.parameter.parse[index].isVarious = false;
+        retCode.parameter.parse[index].isString = true;
+        retCode.parameter.parse[index].value = element.replace(/^'|'$/g, "");
+      }
+      else if (/[0-9]/g.test(element)){
+        retCode.parameter.parse[index].type = 'number';
+        retCode.parameter.parse[index].isNumber = true;
+        retCode.parameter.parse[index].isVarious = false;
+        retCode.parameter.parse[index].isString = false;
+        retCode.parameter.parse[index].value = element;
+      }
+      else if (/[^0-9]/g.test(element)){
+        retCode.parameter.parse[index].type = 'various';
+        retCode.parameter.parse[index].isNumber = false;
+        retCode.parameter.parse[index].isVarious = true;
+        retCode.parameter.parse[index].isString = false;
+        retCode.parameter.parse[index].value = element;
+      }
+      
+      else{
+        return null;
+      }
+    }
   } else if (undefined) {
     // TODO 数式の場合を追加
   } else {
