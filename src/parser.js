@@ -41,7 +41,7 @@ const codeSplit = (code) => {
   for (let index = 0; index < code.length; index++) {
     const element = code[index];
 
-    phaser(element);
+    parser(element);
   }
 };
 
