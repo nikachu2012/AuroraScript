@@ -51,7 +51,7 @@ const codeSplit = (code) => {
  * @returns {JSON} AST
  * @returns {null}
  */
-const phaser = (code) => {
+const parser = (code) => {
   if (code == "") {
     return null;
   }
@@ -96,6 +96,7 @@ const phaser = (code) => {
     retCode.parameter = {};
     retCode.parameter.all = allParameter;
     retCode.parameter.value = parameter;
+
   } else if (undefined) {
     // TODO 数式の場合を追加
   } else {
