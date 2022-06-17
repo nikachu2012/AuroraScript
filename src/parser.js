@@ -11,7 +11,7 @@ const codeSplit = (code) => {
     if (code == 0 || /^(?:function|fn)\s*\(/.test(code[0]) !== true) {
       break;
     }
-    
+
     if (/^(?:function|fn)\s*\(/.test(code[0])) {
       if (/^(?:function|fn)\s*\(/.test(code[0])) {
         const bracketPlace = code.findIndex(element => element.match(/}\s*$/))
@@ -52,7 +52,6 @@ const parser = (code) => {
 
   let retCode = {}; //JSON
 
-  const functionRegExp = /(?:.*)(?=\()/;
 
   if (/^(?:function|fn)\s*\(.*\)\s*{.+}\s*.*/.test(code)) {
     // functionの場合
@@ -62,7 +61,7 @@ const parser = (code) => {
     // 関数定義関連
     retCode.function = {};
 
-    retCode.function.value = code.match(functionRegExp)[0];
+    retCode.function.value = code.match(/^(?:function|fn)(?=\()/)[0];
     if (retCode.function.value === "function") {
       retCode.function.short = false;
     } else if (retCode.function.value === "fn") {
@@ -76,13 +75,24 @@ const parser = (code) => {
     retCode.defineParameter = {};
     retCode.defineParameter.all = defParamAll;
     retCode.defineParameter.value = defParamAll.split(/(?<!\\), |, | ,/g);
+
+    const defineFn = code.match(/(?<=^(?:function|fn)\s*\(.*\)\s*{).*(?=})/g);
+    retCode.defineFn = {};
+    retCode.defineFn.all = defineFn[0];
+    retCode.defineFn.value = defineFn[0].split(/(?<=(?<!\\);)/g);
+    retCode.defineFn.valueParse = [];
+
+    retCode.defineFn.value.forEach(function (e) {
+      retCode.defineFn.valueParse.push(parser(e))
+    })
+
   } else if (/.+\(.*\).*;/.test(code)) {
     // 関数の場合
     retCode.type = "function";
     retCode.input = code;
 
     retCode.function = {};
-    retCode.function.value = code.match(functionRegExp)[0];
+    retCode.function.value = code.match(/(?:.*)(?=\()/g)[0];
 
     const allParameter = code.match(/(?<=\().*?(?=\))/)[0];
     const parameter = allParameter.split(/(?<!\\)(?:,\s*|\s*,|,)/g);
