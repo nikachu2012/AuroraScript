@@ -13,15 +13,15 @@ const codeSplit = (code) => {
     }
 
     try {
-      if (code[0].match(/^(?:function|fn)\s*\(/)[0] == undefined) {
+      if (/^(?:function|fn)\s*\(/.test(code[0]) !== true) {
         break;
       }
     } catch (error) {
       break;
     }
-    if (code[0].match(/^(?:function|fn)\s*\(/)) {
-      if (code[0].match(/^(?:function|fn)\s*\(/) !== undefined) {
-        const bracketPlace = code.indexOf('};')
+    if (/^(?:function|fn)\s*\(/.test(code[0])) {
+      if (/^(?:function|fn)\s*\(/.test(code[0])) {
+        const bracketPlace = code.indexOf('}')
         const replace = code.slice(0, bracketPlace + 1).join("")
         code.splice(0, bracketPlace + 1)
         newcode.push(replace)
