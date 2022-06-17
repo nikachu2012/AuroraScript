@@ -60,7 +60,7 @@ const parser = (code) => {
 
   const functionRegExp = /(?:.*)(?=\()/;
 
-  if (/^(?:function|fn)\s*\(.*\)\s*{.+}\s*;/.test(code)) {
+  if (/^(?:function|fn)\s*\(.*\)\s*{.+}\s*.*/.test(code)) {
     // functionの場合
     retCode.type = "function_define";
     retCode.input = code;
