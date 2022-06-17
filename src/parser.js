@@ -34,7 +34,7 @@ const codeSplit = (code) => {
     console.log(newcode)
   }
 
-  if (code == 0) {
+  if (code.length == 0) {
     code = newcode;
   }
 
