@@ -8,17 +8,10 @@ const codeSplit = (code) => {
   let newcode = [];
 
   while (true) {
-    if (code == 0) {
+    if (code == 0 || /^(?:function|fn)\s*\(/.test(code[0]) !== true) {
       break;
     }
-
-    try {
-      if (/^(?:function|fn)\s*\(/.test(code[0]) !== true) {
-        break;
-      }
-    } catch (error) {
-      break;
-    }
+    
     if (/^(?:function|fn)\s*\(/.test(code[0])) {
       if (/^(?:function|fn)\s*\(/.test(code[0])) {
         const bracketPlace = code.findIndex(element => element.match(/}\s*$/))
