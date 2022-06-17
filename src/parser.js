@@ -21,8 +21,9 @@ const codeSplit = (code) => {
     }
     if (/^(?:function|fn)\s*\(/.test(code[0])) {
       if (/^(?:function|fn)\s*\(/.test(code[0])) {
-        const bracketPlace = code.indexOf('}')
-        const replace = code.slice(0, bracketPlace + 1).join("")
+        const bracketPlace = code.findIndex(element => element.match(/}\s*$/))
+        const slice = code.slice(0, bracketPlace + 1)
+        const replace = slice.join("")
         code.splice(0, bracketPlace + 1)
         newcode.push(replace)
       }
