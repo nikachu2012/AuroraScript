@@ -122,9 +122,15 @@ const parser = (code) => {
         return null;
       }
     }
-  } else if (undefined) {
+  }
+  else if (/^\/\/.*|\/\*.*\*\//g.test(code)) {
+    // コメントの場合
+    // 何もしない
+  }
+  else if (undefined) {
     // TODO 数式の場合を追加
-  } else {
+  }
+  else {
     return null;
   }
 
