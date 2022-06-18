@@ -8,9 +8,6 @@ const codeSplit = (code) => {
   let newcode = [];
 
   while (true) {
-    if (code == 0 || /^(?:function|fn)\s*\(/.test(code[0]) !== true) {
-      break;
-    }
 
     if (/^(?:function|fn)\s*\(/.test(code[0])) {
       if (/^(?:function|fn)\s*\(/.test(code[0])) {
@@ -28,9 +25,8 @@ const codeSplit = (code) => {
     console.log(newcode)
   }
 
-  if (code.length == 0) {
-    code = newcode;
-  }
+  // https://qiita.com/ArcCosine@github/items/12699ecb7ac40b0956c9
+  Array.prototype.splice.apply(code,[0,0].concat(newcode));
 
   for (let index = 0; index < code.length; index++) {
     const element = code[index];
