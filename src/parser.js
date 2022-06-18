@@ -114,6 +114,10 @@ const parser = (code) => {
         retCode.parameter.parse[index].type = 'various';
         retCode.parameter.parse[index].value = element;
       }
+      else if (element == "") {
+        retCode.parameter.parse[index].type = 'null';
+        retCode.parameter.parse[index].value = element;
+      }
       else {
         return null;
       }
