@@ -127,8 +127,13 @@ const parser = (code) => {
     // コメントの場合
     // 何もしない
   }
-  else if (undefined) {
-    // TODO 数式の場合を追加
+  else if (/.+\s*=\s*.+;/g.test(code)) {
+    // TODO 変数定義の場合
+    retCode.type = "var_define";
+    retCode.input = code;
+
+    retCode.defName = code.match(/^.+(?=\s*=)/g)[0].replace(' ', '')
+    retCode.defDat = code.match(/(?<=.*=\s*).*(?=;)/g)[0].replace(' ', '')
   }
   else {
     return null;
