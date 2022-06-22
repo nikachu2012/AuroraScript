@@ -1,4 +1,6 @@
 const codeSplit = (code) => {
+  const startTime = performance.now();
+  
   //コマンドに変形
   code = code.replace(/\r\n/g, "").replace(/\t/g, "").split(/(?<=(?<!\\);)|(?<=(?<=(?:function|fn)\s*\(.*\)\s*{.*).*})/g);
   console.log(code);
@@ -33,6 +35,11 @@ const codeSplit = (code) => {
 
     parser(element);
   }
+
+  const endTime = performance.now(); 
+
+  console.log(endTime - startTime);
+  aurora.log(`実行時間: ${endTime - startTime}ms`, new Date())
 };
 
 /**
