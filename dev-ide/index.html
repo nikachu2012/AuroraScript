@@ -16,7 +16,7 @@
         <span class="titletext">AuroraScriptV2 Deveropment IDE version 2.0&nbsp;</span>
         [<button class="button" onclick="run()">実行</button>|<button class="button"
             onclick="aurora.console_clear();">コンソール消去</button>|<button class="button"
-            onclick="aurora.runLog_clear();">ログ消去</button>]
+            onclick="aurora.logClear();">ログ消去</button>]
 
     </div>
     <div style="display: flex;">
@@ -29,8 +29,7 @@
 
     </div>
 
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/loader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/loader.min.js"></script>
     <script>
         require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/' } });
         require(['vs/editor/editor.main'], function () {
@@ -52,6 +51,51 @@
         const run = () => {
             codeSplit(editor.getValue());
         }
+
+        const aurora = {};
+
+        const AuroraConsole = document.getElementById('console');
+        const AuroraLog = document.getElementById('log');
+
+        aurora.console_clear = () => {
+            AuroraConsole.innerHTML = "";
+        }
+
+        aurora.log = (text, programRun) => {
+            const el = document.createElement("div");
+            el.setAttribute("class", "consoleLog");
+            el.innerHTML = text + '<div class="commandRun">' + programRun + '</div>';
+            AuroraLog.appendChild(el);
+
+            AuroraConsole.scrollTop = AuroraConsole.scrollHeight;
+            AuroraLog.scrollTop = AuroraLog.scrollHeight;
+        }
+
+        aurora.logError = (text, programRun) => {
+            const el = document.createElement("div");
+            el.setAttribute("class", "consoleLog log_error");
+            el.innerHTML = text + '<div class="commandRun">' + programRun + '</div>';
+            AuroraLog.appendChild(el);
+
+            AuroraConsole.scrollTop = AuroraConsole.scrollHeight;
+            AuroraLog.scrollTop = AuroraLog.scrollHeight;
+        }
+
+        aurora.logWarn = (text, programRun) => {
+            const el = document.createElement("div");
+            el.setAttribute("class", "consoleLog log_warn");
+            el.innerHTML = text + '<div class="commandRun">' + programRun + '</div>';
+            AuroraLog.appendChild(el);
+
+            AuroraConsole.scrollTop = AuroraConsole.scrollHeight;
+            AuroraLog.scrollTop = AuroraLog.scrollHeight;
+        }
+
+        aurora.logClear = () => {
+            AuroraLog.innerHTML = "";
+        }
+
+
     </script>
 
     <script src="../src/parser.js"></script>
