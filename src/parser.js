@@ -1,6 +1,8 @@
+const script = {};
+
 const codeSplit = (code) => {
   const startTime = performance.now();
-  
+
   //コマンドに変形
   code = code.replace(/\r\n/g, "").replace(/\t/g, "").split(/(?<=(?<!\\);)|(?<=(?<=(?:function|fn)\s*\(.*\)\s*{.*).*})/g);
   console.log(code);
@@ -30,16 +32,45 @@ const codeSplit = (code) => {
   // https://qiita.com/ArcCosine@github/items/12699ecb7ac40b0956c9
   Array.prototype.splice.apply(code,[0,0].concat(newcode));
 
+
+  let allAST = [];
+  let buildJS = [];
   for (let index = 0; index < code.length; index++) {
     const element = code[index];
 
-    parser(element);
+    const AST = parser(element);
+
+    allAST.push(AST)
+
+    if(AST.type === "function"){
+      // 関数の場合
+      switch (AST.function.value) {
+        // 予約文はここに記入
+        case 'print':
+          buildJS.push(`console.log('${AST.parameter.parse[0].value}');`)
+          break;
+        
+        
+        default:
+          if (Object.keys(script).includes(AST.function.value)) {
+            const prebuild = Function(`const AST = ${JSON.stringify(AST)}; return ${script[AST.function.value].formula};`)();
+            buildJS.push(prebuild)
+          } else {
+            break;
+          }
+          break;
+      }
+    }
   }
 
+  eval(buildJS.join(';'))
   const endTime = performance.now(); 
 
-  console.log(endTime - startTime);
+  console.log(allAST)
+  console.log(buildJS)
+
   aurora.log(`実行時間: ${endTime - startTime}ms`, new Date())
+
 };
 
 /**
