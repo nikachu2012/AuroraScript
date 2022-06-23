@@ -180,3 +180,10 @@ const parser = (code) => {
   console.log(retCode);
   return retCode;
 };
+
+
+const addCommand = (addDat) => {
+
+  script[addDat.code] = addDat
+  console.log(`${addDat.code}の読み込みに成功しました。`)
+}
