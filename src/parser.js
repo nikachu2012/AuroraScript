@@ -72,6 +72,32 @@ const codeSplit = (code) => {
   aurora.log(`実行時間: ${endTime - startTime}ms`, new Date())
 
 };
+/**
+ * 関数のデータを取得してビルドされるJavascriptを返す
+ * @param {string} AST ASTパーサ
+ * @returns {string} 変換後のJS
+ * @returns {null} エラー時
+ */
+const functionAccess = (AST) => {
+  switch (AST.function.value) {
+    // 予約文はここに記入
+    case 'print':
+      return(`console.log('${AST.parameter.parse[0].value}');`);
+      break;
+    case 'Date.getYear':
+      return(`new Date().getFullYear();`);
+      break;
+    
+    default:
+      if (Object.keys(script).includes(AST.function.value)) {
+        const prebuild = Function(`const AST = ${JSON.stringify(AST)}; return ${script[AST.function.value].formula};`)();
+        buildJS.push(prebuild)
+      } else {
+        break;
+      }
+      break;
+  }
+}
 
 /**
  * コマンドを解析してASTを生成する
