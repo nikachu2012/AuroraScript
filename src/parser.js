@@ -44,22 +44,28 @@ const codeSplit = (code) => {
 
     if(AST.type === "function"){
       // 関数の場合
-      switch (AST.function.value) {
-        // 予約文はここに記入
-        case 'print':
-          buildJS.push(`console.log('${AST.parameter.parse[0].value}');`)
-          break;
-        
-        
-        default:
-          if (Object.keys(script).includes(AST.function.value)) {
-            const prebuild = Function(`const AST = ${JSON.stringify(AST)}; return ${script[AST.function.value].formula};`)();
-            buildJS.push(prebuild)
-          } else {
-            break;
-          }
-          break;
+      buildJS.push(functionAccess(AST));
+    }
+    else if(AST.type === "function_define"){
+      // 関数定義
+
+    }
+    else if(AST.type === "var_define"){
+      // 変数定義
+
+      if(/.+\(.*\).*/.test(AST.defDat)){
+        const match = AST.defDat.split(/\s*(?:\+|\-|\*|\/)\s*/g);
+        let convert = AST.defDat;
+        for (let index = 0; index < match.length; index++) {
+          const element_parse = parser(match[index] + ';')
+          const fnAcc = functionAccess(element_parse);
+          convert = convert.replace(match[index], fnAcc)
+        }
+        buildJS.push(AST.defName + ' = ' + convert)
       }
+    }
+    else {
+      return null;
     }
   }
 
