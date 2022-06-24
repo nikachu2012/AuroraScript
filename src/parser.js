@@ -119,8 +119,8 @@ const parser = (code) => {
     retCode.defineFn.value.forEach(function (e) {
       retCode.defineFn.valueParse.push(parser(e))
     })
-
-  } else if (/.+\(.*\).*;/.test(code)) {
+// /.+(?<!\=\s*)\(.*\).*;/
+  } else if (/(?<!.+\s*\=\s*.+)\(.*\).*;/.test(code)) {
     // 関数の場合
     retCode.type = "function";
     retCode.input = code;
