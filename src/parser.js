@@ -77,7 +77,7 @@ const codeSplit = (code) => {
  * コマンドを解析してASTを生成する
  * @param {string} code コード
  * @returns {JSON} AST
- * @returns {null}
+ * @returns {null} エラー時
  */
 const parser = (code) => {
   if (code == "") {
