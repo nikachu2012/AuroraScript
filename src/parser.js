@@ -91,7 +91,7 @@ const functionAccess = (AST) => {
       return(`console.log('${AST.parameter.parse[0].value}');`);
     default:
       if (Object.keys(script).includes(AST.function.value)) {
-        return(Function(`const AST = ${JSON.stringify(AST)}; return ${script[AST.function.value].formula};`)());
+        return(Function(`const AST = ${JSON.stringify(AST)}; return \`${script[AST.function.value].formula}\`;`)());
       } else {
         break;
       }
