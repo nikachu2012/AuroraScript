@@ -89,11 +89,6 @@ const functionAccess = (AST) => {
     // 予約文はここに記入
     case 'print':
       return(`console.log('${AST.parameter.parse[0].value}');`);
-      break;
-    case 'Date.getYear':
-      return(`new Date().getFullYear();`);
-      break;
-    
     default:
       if (Object.keys(script).includes(AST.function.value)) {
         return(Function(`const AST = ${JSON.stringify(AST)}; return ${script[AST.function.value].formula};`)());
