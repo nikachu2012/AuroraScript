@@ -35,6 +35,7 @@ const codeSplit = (code) => {
 
   let allAST = [];
   let buildJS = [];
+
   for (let index = 0; index < code.length; index++) {
     const element = code[index];
 
@@ -48,7 +49,13 @@ const codeSplit = (code) => {
     }
     else if(AST.type === "function_define"){
       // 関数定義
-
+      const ASTconvert = [];
+      for (let index = 0; index < AST.defineFn.valueParse.length; index++) {
+        const element = AST.defineFn.valueParse[index];
+        ASTconvert.push(functionAccess(element))
+        
+      }
+      buildJS.push(`function ${AST.function.name}(${AST.defineParameter.value.join(',')}){${ASTconvert.join(';')}}`)
     }
     else if(AST.type === "var_define"){
       // 変数定義
@@ -113,7 +120,7 @@ const parser = (code) => {
   let retCode = {}; //JSON
 
 
-  if (/^(?:function|fn)\s*\(.*\)\s*{.+}\s*.*/.test(code)) {
+  if (/^(?:function|fn)\s.+\s*\(.*\)\s*{.+}\s*.*/.test(code)) {
     // functionの場合
     retCode.type = "function_define";
     retCode.input = code;
@@ -121,7 +128,7 @@ const parser = (code) => {
     // 関数定義関連
     retCode.function = {};
 
-    retCode.function.value = code.match(/^(?:function|fn)(?=\()/)[0];
+    retCode.function.value = code.match(/^(?:function|fn)(?=\s)/)[0];
     if (retCode.function.value === "function") {
       retCode.function.short = false;
     } else if (retCode.function.value === "fn") {
@@ -129,6 +136,8 @@ const parser = (code) => {
     } else {
       return null; // エラー
     }
+
+    retCode.function.name = code.match(/(?<=function\s+|fn\s+).+(?=\(.+\)\{.*\})/)[0];
     const defParamAll = code.match(/\s*(?<=\().*(?=\)\s*{)/)[0];
 
     // パラメータ
@@ -136,14 +145,14 @@ const parser = (code) => {
     retCode.defineParameter.all = defParamAll;
     retCode.defineParameter.value = defParamAll.split(/(?<!\\), |, | ,/g);
 
-    const defineFn = code.match(/(?<=^(?:function|fn)\s*\(.*\)\s*{).*(?=})/g);
+    const defineFn = code.match(/(?<=^(?:function|fn).*\s*\(.*\)\s*{).*(?=})/g);
     retCode.defineFn = {};
     retCode.defineFn.all = defineFn[0];
     retCode.defineFn.value = defineFn[0].split(/(?<=(?<!\\);)/g);
     retCode.defineFn.valueParse = [];
 
     retCode.defineFn.value.forEach(function (e) {
-      retCode.defineFn.valueParse.push(parser(e))
+      retCode.defineFn.valueParse.push(parser(e + ';'))
     })
 // /.+(?<!\=\s*)\(.*\).*;/
   } else if (/(?<!.+\s*\=\s*.+)\(.*\).*;/.test(code)) {
