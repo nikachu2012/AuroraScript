@@ -96,8 +96,7 @@ const functionAccess = (AST) => {
     
     default:
       if (Object.keys(script).includes(AST.function.value)) {
-        const prebuild = Function(`const AST = ${JSON.stringify(AST)}; return ${script[AST.function.value].formula};`)();
-        buildJS.push(prebuild)
+        return(Function(`const AST = ${JSON.stringify(AST)}; return ${script[AST.function.value].formula};`)());
       } else {
         break;
       }
